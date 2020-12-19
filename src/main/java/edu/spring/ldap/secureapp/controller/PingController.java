@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -12,9 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.spring.ldap.secureapp.model.People;
+import edu.spring.ldap.secureapp.repository.PeopleRepository;
+
 @Controller
 @RequestMapping("/ping")
 public class PingController {
+	
+	@Autowired
+	private PeopleRepository peopleRepository;
 	
 	@RequestMapping(method=RequestMethod.GET,path = "/message/{value}")
 	@ResponseBody
@@ -35,6 +42,11 @@ public class PingController {
 	{
 		Map<String,String> map = new HashMap<>();
 		map.put("message", "Received ping at "+LocalDate.now().toString());
+		/*
+		 * Iterable<People> peoples = peopleRepository.findAll(); if(peoples!=null) {
+		 * peoples.forEach(ppl -> { System.out.println(ppl.getUid()); }); }
+		 */
+		
 		return map;
 	}
 
